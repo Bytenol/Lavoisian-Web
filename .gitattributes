@@ -1,2 +1,3 @@
 *.razor linguist-language=C#
 *.cs linguist-language=C#
+*.css linguist-vendored
