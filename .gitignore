@@ -1,2 +1,48 @@
-.vscode
-dist
+# Ignore build artifacts
+bin/
+obj/
+out/
+
+# User-specific files
+.vscode/
+dist/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# .NET dependencies
+*.dll
+*.exe
+*.pdb
+*.cache
+*.log
+*.db
+*.sqlite
+*.mdf
+*.ldf
+
+# ASP.NET secrets and configs
+secrets.json
+appsettings.Development.json
+
+# Blazor WebAssembly publish output
+wwwroot/css/app.css
+wwwroot/css/app.css.map
+wwwroot/_framework/
+wwwroot/service-worker.js
+wwwroot/service-worker.published.js
+
+# # Emscripten-generated files (if using WebAssembly with C++)
+# wwwroot/wasm/*.wasm
+# wwwroot/wasm/*.js
+# wwwroot/wasm/*.data
+# wwwroot/wasm/*.mem
+
+# Rider / JetBrains
+.idea/
+*.iml
+
+# Log files
+*.log
+logs/
