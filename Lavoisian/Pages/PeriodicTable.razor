@@ -1,0 +1,42 @@
+@page "/periodicTable"
+@inject IJSRuntime JS
+
+<div id="periodicTable" className="PeriodicTableBody">
+    <nav>
+        <h3><b>Elements</b></h3>
+        <div className="NavTools">
+            <button>Filter</button>
+            <button>Menu</button>
+        </div>
+    </nav>
+    <canvas id="cvs"></canvas>
+    <footer>
+        <div className="NavTools">
+            <button>Home</button>
+            <button>Search</button>
+            <button>Solubility</button>
+            <button>Hey</button>
+        </div>
+    </footer>
+</div>
+
+
+@code 
+{
+
+}
+
+
+
+@* for(let i = 0; i < 7; i++)
+    {
+        for(let j = 0; j < 18; j++)
+        {
+            const px = offset + spacing + j * boxSize;
+            const py = offset + spacing + i * boxSize;
+            ctx.fillStyle = "lime";
+            ctx.fillRect(px, py, cardSize, cardSize);
+            ctx.fillStyle = "#222";
+            centeredText(ctx, j * i + j, px + cardSize * 0.5, py + cardSize * 0.5);
+        }
+    } *@

@@ -1,0 +1,25 @@
+@page "/elements"
+@inject NavigationManager NavManager
+
+
+@code
+{
+
+}
+
+@* @code
+{
+    [Parameter]
+    public int? Id { get; set; }
+    private bool NotFound = false;
+
+    protected override void OnInitialized()
+    {
+        NotFound = !(Id >= 1 || Id <= 119);
+        return;
+    }
+}
+
+@if (NotFound)
+{
+    @* @(NavManager.NavigateTo("/")); *@
