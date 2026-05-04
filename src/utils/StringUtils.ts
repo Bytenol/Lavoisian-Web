@@ -1,0 +1,1 @@
+export const isDigit = (char: string) => char.match(/[0-9]/);
