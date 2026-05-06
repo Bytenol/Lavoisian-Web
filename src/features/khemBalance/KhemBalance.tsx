@@ -3,9 +3,9 @@ import { getRandomFromArray, getRandRange } from "../../utils/MathUtils";
 import EquationParser from "./EquationParser";
 
 const sampleEqn = [
-    // "NaOH + H2SO4 = Na2SO4 + H2O",
+    "NaOH + H2SO4 = Na2SO4 + H2O",
     // "H2 + O2 = H2O",
-    "H2 + O2 = H2O"
+    // "H2 + O2 = H2O"
 ];
 
 

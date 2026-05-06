@@ -1,3 +1,4 @@
+import { reducedRowEchelon, makeInvertibleMatrix, makeTriangularMatrix } from "../../utils/MathUtils";
 import { isDigit } from "../../utils/StringUtils";
 
 type reactant_t = Set<string>;
@@ -128,7 +129,7 @@ export default class EquationParser {
         }
 
         const groupedData = [...reactants, ...products];
-        const matrix: number[][] = [];
+        let matrix: number[][] = [];
 
         reactantAtoms.forEach((atom: string) => {
             matrix.push([]);
@@ -141,7 +142,9 @@ export default class EquationParser {
             }
         });
 
-        // matrix successfully generated here
+        console.log(matrix);
+        const echelon = reducedRowEchelon(matrix);
+        console.log(echelon);
 
     }
 
