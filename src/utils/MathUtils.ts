@@ -17,7 +17,7 @@ export const getRandRange = (min: number, max: number) => Math.random() * (max -
  */
 export const makeInvertibleMatrix = (inputArr: matrix_t) => {
     const arr = [...inputArr];
-    const maxRow = arr[0].length - 1;
+    const maxRow = inputArr[0].length - 1;
     let isInvertible = false;
 
     const MAX_TRIES = 30;
@@ -53,16 +53,16 @@ export const makeInvertibleMatrix = (inputArr: matrix_t) => {
 
 
 export function makeTriangularMatrix(inputArr: matrix_t, isUpperBound = false){
-    const maxRow = inputArr.length - 1;
+    const maxRow = inputArr[0].length - 1;
     let count = 0;
 
     for(let i = 0; i < maxRow; i++) {
         const r1 = inputArr[i];
         const a = r1[i];
-        
-        // for lower-boundaries
+
         const lowerBoundary = isUpperBound ? 0 : i + 1;
         const upperBoundary = isUpperBound ? i : inputArr.length;
+
         for(let row = lowerBoundary; row < upperBoundary; row++) {
             const r2 = inputArr[row];
             const b = r2[i];
@@ -77,6 +77,9 @@ export function makeTriangularMatrix(inputArr: matrix_t, isUpperBound = false){
             }
             inputArr[row] = [...narr];
         }
+
+        makeInvertibleMatrix(inputArr);
+        
     }
 
     return count;
@@ -88,41 +91,33 @@ export function reducedRowEchelon(inputArr: matrix_t) {
     let iter = 0;
     let isValid = true;
 
+    let maxRow = inputArr[0].length - 1;
     let matrix = [...inputArr];
 
     while(iter++ < MAX_ITER && isValid) {
-        matrix = makeInvertibleMatrix(matrix);
-        if(!matrix.length) {
-            isValid = false;
-            continue
-        }
-
         let bc = makeTriangularMatrix(matrix, false);
-        matrix = makeInvertibleMatrix(matrix);
-        if(!matrix.length) {
-            isValid = false;
-            continue
-        }
-
         let tc = makeTriangularMatrix(matrix, true);
 
-        // all are triangular
+        // no more index to be made zero
         if(bc + tc == 0) break;
     }
 
-    const maxRow = inputArr.length - 1;
-    const colLength = inputArr[0].length;
-    for(let i = 0; i < maxRow; i++) {
-        const val = matrix[i][i];
+    console.log(matrix);
 
-        matrix[i][i] /= val;
-        matrix[i][colLength - 1] /= val;
+    // maxRow = matrix.length - 1;
+    // for(let i = 0; i < maxRow; i++) {
+    //     const val = matrix[i][i];
+
+    //     matrix[i][i] /= val;
+    //     matrix[i][maxRow] /= val;
         
-    }
+    // }
 
     return isValid ? matrix: [];
 }
 
+
+export const gcd = (a: number, b: number): number => (b === 0) ? a: gcd(b, a % b);
 
 
 export class Fraction {
@@ -130,20 +125,33 @@ export class Fraction {
     constructor(
         public num = 0,
         public denom = 1
-    ){}
+    ){
+        this.simplify();
+    }
+
+    private simplify() {
+        let g = gcd(this.num, this.denom);
+        if(g !== 1) {
+            this.num /= g;
+            this.denom /= g;
+        } 
+    }
 
     public multiply(f: Fraction) {
         return new Fraction(this.num * f.num, this.denom * f.denom);
     }
 
-    public add(f: Fraction) {
-        const lcm = this.denom * f.denom;
-        return new Fraction(lcm / this.denom * this.num + lcm / f.denom * f.num, lcm);
-    }
+    // get a fraction from a floating point number
+    // Fraction.fromDecimal(0.5) => Fraction(1, 2);
+    public static fromDecimal(d: number) {
+        let ds = d.toString();
 
-    public sub(f: Fraction) {
-        const lcm = this.denom * f.denom;
-        return new Fraction(lcm / this.denom * this.num - lcm / f.denom * f.num, lcm);
+        // integers
+        if(!ds.includes(".")) return new Fraction(d, 1);
+
+        let num = parseInt(ds.replace(".", ""));
+        let strnum = num.toString();
+        return new Fraction(num, Math.pow(10, strnum.length));
     }
 
 }

@@ -1,7 +1,5 @@
-import { reducedRowEchelon, makeInvertibleMatrix, makeTriangularMatrix } from "../../utils/MathUtils";
-import { isDigit } from "../../utils/StringUtils";
+import { isDigit } from "../utils/StringUtils";
 
-type reactant_t = Set<string>;
 
 
 interface iAtomData {
@@ -9,6 +7,7 @@ interface iAtomData {
     amountStr?: string;
     amountNum: number;
 }
+
 
 
 class Compound {
@@ -100,70 +99,8 @@ class AtomNode {
         public text: string = "",
         
     ) {}
-
 }
 
 
-export default class EquationParser {
 
-    constructor(private eqn: string) 
-    {
-        this.getReactantProd();
-        
-    }
-
-    
-    private getReactantProd() 
-    {
-        const [lhs, rhs] = this.eqn.split("=");
-        if(!lhs || !rhs) {
-            throw new Error("Equation does not have appropriate reactant and product length");
-        }
-
-        // NaOH + HCl = NaCl + H2O
-        const [ reactantAtoms, reactants ] = this.getAtomsFromSides(lhs);
-        const [ productAtoms, products ] = this.getAtomsFromSides(rhs);
-
-        if(reactantAtoms.size != productAtoms.size || [...productAtoms].some(i => !reactantAtoms.has(i))) {
-            throw new Error("Law of Conservation of mass failed");
-        }
-
-        const groupedData = [...reactants, ...products];
-        let matrix: number[][] = [];
-
-        reactantAtoms.forEach((atom: string) => {
-            matrix.push([]);
-            for(let i = 0; i < groupedData.length; i++) {
-                const atoms = groupedData[i].atoms;
-                let f = atoms.filter(i => i.symbol == atom)[0];
-                let cmatrix = matrix[matrix.length - 1];
-                if(f) cmatrix.push(f.amountNum);
-                else cmatrix.push(0);
-            }
-        });
-
-        console.log(matrix);
-        const echelon = reducedRowEchelon(matrix);
-        console.log(echelon);
-
-    }
-
-    private getAtomsFromSides(cmpds: string): [Set<string>, Compound[]] {
-        const allAtoms: Set<string> = new Set();
-        const compounds: Compound[] = [];
-        
-        cmpds.split("+").map(s => s.replace(" ", "")).forEach((item) => {
-            const cmpd = new Compound(item);
-            const atoms = cmpd.atoms;
-            for(let atom of atoms) {
-                allAtoms.add(atom.symbol);
-            }
-            compounds.push(cmpd);
-        });
-
-        return [allAtoms, compounds];
-    }
-
-
-    
-}
+export default Compound;
